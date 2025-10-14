@@ -11,12 +11,12 @@ namespace Presistence.Data.Configrations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasOne<ProductType>()
+            builder.HasOne(p=>p.ProductType)
                 .WithMany().
-                HasForeignKey(x => x.TypeId).OnDelete(DeleteBehavior.NoAction); ;
+                HasForeignKey(x => x.TypeId) ;
 
-            builder.HasOne<ProductBrand>()
-                .WithMany().HasForeignKey(x => x.BrandId).OnDelete(DeleteBehavior.NoAction); ;
+            builder.HasOne(p=>p.ProductBrand)
+                .WithMany().HasForeignKey(x => x.BrandId) ;
 
             builder.Property(p => p.Price)
                 .HasColumnType("decimal(14,2)");

@@ -38,7 +38,7 @@ namespace Presistence.Data
                         _storeDbContext.ProductTypes.AddRange(productType);
                     }
                 }
-                _storeDbContext.SaveChanges();
+                //_storeDbContext.SaveChanges();
                 if (!_storeDbContext.products.Any())
                 {
                     var data = File.ReadAllText("..\\Infrastructure\\Presistence\\Data\\DataSeed\\products.json");

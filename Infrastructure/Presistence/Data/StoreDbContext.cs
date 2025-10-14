@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Presistence.Data.Configrations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,8 +16,8 @@ namespace Presistence.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.
-                ApplyConfigurationsFromAssembly(typeof(AssemblyRefernce).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyRefernce).Assembly);
+                
         }
 
         public DbSet<Product> products { get; set; }

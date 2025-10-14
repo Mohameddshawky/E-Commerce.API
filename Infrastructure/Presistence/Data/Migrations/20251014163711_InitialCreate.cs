@@ -46,33 +46,21 @@ namespace Presistence.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(14,2)", nullable: false),
-                    ProductBrandId = table.Column<int>(type: "int", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: false),
-                    ProductTypeId = table.Column<int>(type: "int", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_products_ProductTypes_ProductTypeId",
-                        column: x => x.ProductTypeId,
+                        name: "FK_products_ProductTypes_TypeId",
+                        column: x => x.TypeId,
                         principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_products_ProductTypes_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "ProductTypes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_products_productBrands_BrandId",
                         column: x => x.BrandId,
-                        principalTable: "productBrands",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_products_productBrands_ProductBrandId",
-                        column: x => x.ProductBrandId,
                         principalTable: "productBrands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -82,16 +70,6 @@ namespace Presistence.Data.Migrations
                 name: "IX_products_BrandId",
                 table: "products",
                 column: "BrandId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_products_ProductBrandId",
-                table: "products",
-                column: "ProductBrandId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_products_ProductTypeId",
-                table: "products",
-                column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_products_TypeId",
