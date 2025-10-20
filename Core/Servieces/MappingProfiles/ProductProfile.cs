@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entites.ProductModule;
+using Services.MappingProfiles;
 using Shared.DTos;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Servieces.MappingProfiles
                 o=>o.MapFrom(s=>s.ProductBrand.Name)).
                 ForMember(p => p.TypeName,
                 o => o.MapFrom(s => s.ProductType.Name)).
-                ForMember(p=>p.PictureUrl,o=>o.MapFrom(s=>$"https://localhost:7117/{s.PictureUrl}"));
+                ForMember(p=>p.PictureUrl,o=>o.MapFrom<PictureUrlResolver>());
         }
     }
 }
