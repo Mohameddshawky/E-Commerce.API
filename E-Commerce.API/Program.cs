@@ -3,6 +3,10 @@ using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presistence.Data;
+using Presistence.Repositories;
+using Servces.Abstraction;
+using Services;
+using Servieces;
 using System.Threading.Tasks;
 
 namespace E_Commerce.API
@@ -25,6 +29,9 @@ namespace E_Commerce.API
             }
                 );
             builder.Services.AddScoped<IDataSeeding,DataSeeding>(); 
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddAutoMapper(c =>{ },typeof(AssemblyReference).Assembly);
+            builder.Services.AddScoped<IServiceManger, ServiceManger>();
             var app = builder.Build();
             using (var scope = app.Services.CreateScope())
             {
@@ -39,8 +46,8 @@ namespace E_Commerce.API
             }
 
             app.UseHttpsRedirection();
-
-           // app.UseAuthorization();
+            app.UseStaticFiles();   
+            // app.UseAuthorization();
 
 
             app.MapControllers();
