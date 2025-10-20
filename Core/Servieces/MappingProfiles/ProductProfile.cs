@@ -20,7 +20,8 @@ namespace Servieces.MappingProfiles
                 ForMember(p => p.BrandName,
                 o=>o.MapFrom(s=>s.ProductBrand.Name)).
                 ForMember(p => p.TypeName,
-                o => o.MapFrom(s => s.ProductType.Name));
+                o => o.MapFrom(s => s.ProductType.Name)).
+                ForMember(p=>p.PictureUrl,o=>o.MapFrom(s=>$"https://localhost:7117/{s.PictureUrl}"));
         }
     }
 }
