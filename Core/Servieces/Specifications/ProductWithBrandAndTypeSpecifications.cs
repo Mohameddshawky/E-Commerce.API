@@ -1,4 +1,5 @@
 ﻿using Domain.Entites.ProductModule;
+using Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,27 @@ namespace Services.Specifications
 {
     internal class ProductWithBrandAndTypeSpecifications : BaseSpecifications<Product, int>
     {
-        public ProductWithBrandAndTypeSpecifications() : base(null)
+        public ProductWithBrandAndTypeSpecifications(ProductSortingOptions sort) : base(null)
         {
             AddInclude(p => p.ProductType);
             AddInclude(p => p.ProductBrand);
+            switch(sort)
+            {
+                case ProductSortingOptions.nameAsc:
+                    AddOrderBy(p => p.Name);
+                    break;
+                case ProductSortingOptions.nameDesc:
+                    AddOrderByDesc(p => p.Name);
+                    break;
+                case ProductSortingOptions.priceAsc:
+                    AddOrderBy(p => p.Price);
+                    break;
+                case ProductSortingOptions.priceDesc:
+                    AddOrderByDesc(p => p.Price);
+                    break;
+                default:                  
+                    break;
+            }
         }
         public ProductWithBrandAndTypeSpecifications(int id):base(p=>p.Id==id)
         {
