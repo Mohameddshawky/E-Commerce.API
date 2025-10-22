@@ -16,6 +16,7 @@ namespace Services.Specifications
             base(
                 p=> (!parameter.TypeId.HasValue || p.TypeId == parameter.TypeId) &&
                      (!parameter.BrandId.HasValue || p.BrandId == parameter.BrandId)
+                && (string.IsNullOrEmpty(parameter.Search) || p.Name.ToLower().Contains(parameter.Search.ToLower()))
             )
         {
             AddInclude(p => p.ProductType);
