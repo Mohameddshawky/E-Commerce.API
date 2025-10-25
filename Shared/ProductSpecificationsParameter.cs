@@ -16,7 +16,7 @@ namespace Shared
         public ProductSortingOptions sort { get; set; }
         public string? Search { get; set; }
 
-        public int PageIndex { get; set; }
+        public int PageIndex { get; set; } = 1;
         private int _PageSize = DefaultPageSize;
 
         public int PageSize
