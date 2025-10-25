@@ -26,7 +26,6 @@ namespace Servieces
         public async Task<ProductResultDto> GetProductByIdAsync(int id)
         {
             var specification = new ProductWithBrandAndTypeSpecifications(id);
-
             var product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(specification);
             var res = _Mapper.Map<ProductResultDto>(product);
             return res;

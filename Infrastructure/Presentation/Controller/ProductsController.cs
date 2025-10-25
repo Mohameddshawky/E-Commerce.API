@@ -13,7 +13,7 @@ namespace Presentation.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController(IServiceManger serviceManger):ControllerBase
+    public class ProductsController(IServiceManger serviceManger):ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProductsAsync([FromQuery]ProductSpecificationsParameter parameter)

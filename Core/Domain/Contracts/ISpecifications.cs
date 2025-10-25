@@ -18,5 +18,6 @@ namespace Domain.Contracts
         public bool IsPaginated { get; }
 
 
+
     }
 }
