@@ -46,6 +46,10 @@ namespace E_Commerce.API.MiddleWares
             };
             await context.Response.WriteAsync(response.ToString());
 
+
+
+
+            //
         }
     }
 }
