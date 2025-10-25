@@ -26,18 +26,19 @@ namespace Servieces
         public async Task<ProductResultDto> GetProductByIdAsync(int id)
         {
             var specification = new ProductWithBrandAndTypeSpecifications(id);
-
             var product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(specification);
             var res = _Mapper.Map<ProductResultDto>(product);
             return res;
         }
 
-        public async Task<IEnumerable<ProductResultDto>> GetAllProductsAsync(ProductSpecificationsParameter parameter)
+        public async Task<PaginatedResult<ProductResultDto>> GetAllProductsAsync(ProductSpecificationsParameter parameter)
         {
+            var ProductRepo=_unitOfWork.GetRepository<Product, int>();
             var specifications = new ProductWithBrandAndTypeSpecifications(parameter);
-            var products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(specifications);
+            var products = await ProductRepo.GetAllAsync(specifications);
             var res = _Mapper.Map<IEnumerable<ProductResultDto>>(products);
-            return res;
+            var count= await ProductRepo.CountAsync(new ProductCountSpecifications(parameter));
+            return new PaginatedResult<ProductResultDto>(parameter.PageIndex,res.Count(),count,res);
         }
 
         public async Task<IEnumerable<TypeResultDto>> GetAllTypesAsync()

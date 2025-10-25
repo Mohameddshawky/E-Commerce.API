@@ -38,7 +38,9 @@ namespace Services.Specifications
                 default:                  
                     break;
             }
+        ApplyPagination(parameter.PageSize, parameter.PageIndex);
         }
+        
         public ProductWithBrandAndTypeSpecifications(int id):base(p=>p.Id==id)
         {
             AddInclude(p => p.ProductType);
