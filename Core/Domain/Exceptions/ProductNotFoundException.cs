@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    internal class ProductNotFoundException:NotFoundException
+    public class ProductNotFoundException:NotFoundException
     {
         public ProductNotFoundException(int id)
             :base($"Product With id {id} Was Not Found")
