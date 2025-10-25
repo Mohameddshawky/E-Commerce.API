@@ -19,6 +19,10 @@ namespace E_Commerce.API.MiddleWares
             try
             {
                 await _next(context);
+                if(context.Response.StatusCode==StatusCodes.Status404NotFound)
+                {
+                    await HandleNotFoundApiAsync(context );
+                }
 
             }
             catch (Exception ex)
@@ -26,6 +30,19 @@ namespace E_Commerce.API.MiddleWares
                 _logger.LogError($"Something went wrong==> :{ex.Message} ");
                 await HandleExceptionAsync(context, ex);
             }
+        }
+
+        private async Task HandleNotFoundApiAsync(HttpContext context)
+        {
+            context.Response.ContentType = "application/json";
+            var response = new ErrorDetails()
+            {
+                StatusCode =StatusCodes.Status404NotFound,
+                ErrorMessage = $"The EndPoint with url {context.Request.Path} is not found "
+
+            }.ToString();
+            await context.Response.WriteAsync(response);
+
         }
 
         private async Task HandleExceptionAsync(HttpContext context, Exception ex)
@@ -46,10 +63,6 @@ namespace E_Commerce.API.MiddleWares
             };
             await context.Response.WriteAsync(response.ToString());
 
-
-
-
-            //
         }
     }
 }
