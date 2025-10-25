@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Shared
 {
-    internal class Exceptions
+    public record PaginatedResult<TData>(int  pageIndex, int pageSize,int TotalCount,IEnumerable<TData> Data)
     {
+
     }
 }
