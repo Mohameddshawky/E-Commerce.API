@@ -1,6 +1,8 @@
 
 using Domain.Contracts;
+using E_Commerce.API.Factories;
 using E_Commerce.API.MiddleWares;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presistence.Data;
@@ -29,6 +31,11 @@ namespace E_Commerce.API
                 op.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection"));
             }
                 );
+            builder.Services.Configure<ApiBehaviorOptions>(option =>
+            {
+                option.InvalidModelStateResponseFactory = ApiResponseFactory.CustomValidationErrorResponse;
+
+            });
             builder.Services.AddScoped<IDataSeeding,DataSeeding>(); 
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             builder.Services.AddAutoMapper(c =>{ },typeof(AssemblyReference).Assembly);
