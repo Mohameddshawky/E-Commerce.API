@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Servces.Abstraction;
 using Shared;
 using Shared.DTos;
 using Shared.Enums;
+using Shared.Error_Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,11 @@ namespace Presentation.Controller
         public async Task<ActionResult<IEnumerable<TypeResultDto>>> GetAllTypesAsync()
         => Ok(await serviceManger.ProductService.GetAllTypesAsync());
 
+
+        [ProducesResponseType(typeof(ProductResultDto),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ErrorDetails),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationErrorResponse),StatusCodes.Status400BadRequest)]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TypeResultDto>> GetProductByIdAsync(int id)
         => Ok(await serviceManger.ProductService.GetProductByIdAsync(id));
