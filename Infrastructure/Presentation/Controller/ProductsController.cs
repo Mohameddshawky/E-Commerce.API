@@ -17,14 +17,26 @@ namespace Presentation.Controller
     [Route("api/[controller]")]
     public class ProductsController(IServiceManger serviceManger):ControllerBase
     {
+
+        [ProducesResponseType(typeof(IEnumerable<ProductResultDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         [HttpGet]
         public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProductsAsync([FromQuery]ProductSpecificationsParameter parameter)
          =>Ok(await serviceManger.ProductService.GetAllProductsAsync(parameter));
 
+
+        [ProducesResponseType(typeof(IEnumerable<BrandResultDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         [HttpGet("Brands")]
         public async Task<ActionResult<IEnumerable<BrandResultDto>>> GetAllBrandsAsync()
         => Ok(await serviceManger.ProductService.GetAllBrandsAsync());
 
+
+        [ProducesResponseType(typeof(IEnumerable<TypeResultDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         [HttpGet("Types")]
         public async Task<ActionResult<IEnumerable<TypeResultDto>>> GetAllTypesAsync()
         => Ok(await serviceManger.ProductService.GetAllTypesAsync());
@@ -32,8 +44,8 @@ namespace Presentation.Controller
 
         [ProducesResponseType(typeof(ProductResultDto),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails),StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(ErrorDetails),StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationErrorResponse),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorDetails),StatusCodes.Status404NotFound)]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TypeResultDto>> GetProductByIdAsync(int id)
         => Ok(await serviceManger.ProductService.GetProductByIdAsync(id));
