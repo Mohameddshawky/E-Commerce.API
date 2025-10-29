@@ -1,5 +1,5 @@
 ﻿using Shared;
-using Shared.DTos;
+using Shared.DTos.ProductModule;
 using Shared.Enums;
 using System;
 using System.Collections.Generic;
