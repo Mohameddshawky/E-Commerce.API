@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entites.ProductModule;
 using Services.MappingProfiles;
-using Shared.DTos;
+using Shared.DTos.ProductModule;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -18,6 +18,7 @@ namespace E_Commerce.API.Extension
 
             services.AddScoped<IDataSeeding, DataSeeding>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICacheRepository, CacheRepository>();    
             services.AddSingleton<IConnectionMultiplexer>
                 ((_) =>
                 {

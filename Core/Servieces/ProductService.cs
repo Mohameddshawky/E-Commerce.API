@@ -5,7 +5,7 @@ using Domain.Exceptions;
 using Servces.Abstraction;
 using Services.Specifications;
 using Shared;
-using Shared.DTos;
+using Shared.DTos.ProductModule;
 using Shared.Enums;
 using System;
 using System.Collections.Generic;
