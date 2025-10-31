@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Contracts;
+using Domain.Entites.IdentitiyModule;
+using Microsoft.AspNetCore.Identity;
 using Servces.Abstraction;
 using Servieces;
 using System;
@@ -12,7 +14,10 @@ namespace Services
 {
     public class ServiceManger(IUnitOfWork unitOfWork
         ,IMapper mapper
-        ,IBasketRepository basketRepository,ICacheRepository cacherepository) : IServiceManger
+        ,IBasketRepository basketRepository
+        ,ICacheRepository cacherepository
+        ,UserManager<User> userManager
+        ) : IServiceManger
     {
         private readonly Lazy<IProductService> _productService
             = new Lazy<IProductService>(() => new ProductService( unitOfWork,mapper));
@@ -20,10 +25,14 @@ namespace Services
             = new Lazy<IBasketService>(() => new BasketService(basketRepository, mapper));
         private readonly Lazy<ICacheService> _cacheService
             = new Lazy<ICacheService>(() => new CacheService(cacherepository));
+        private readonly Lazy<IAuthenticationService> _authenticationService
+            = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager));
         public IProductService ProductService => _productService.Value;
 
         public IBasketService basketService => _basketService.Value;
          
         public ICacheService cacheService => _cacheService.Value;
+
+        public IAuthenticationService authenticationService =>_authenticationService.Value;
     }
 }
