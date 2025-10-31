@@ -1,6 +1,9 @@
 ﻿using Domain.Contracts;
+using Domain.Entites.IdentitiyModule;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
+using Presistence.Identity;
 using Presistence.Repositories;
 using StackExchange.Redis;
 
@@ -15,6 +18,11 @@ namespace E_Commerce.API.Extension
             {
                 op.UseSqlServer(configuration.GetConnectionString("DefualtConnection"));
             });
+            services.AddDbContext<IdentityStoreDbContext>(op =>
+            {
+                op.UseSqlServer(configuration.GetConnectionString("IdentityConnection"));
+            });
+
 
             services.AddScoped<IDataSeeding, DataSeeding>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -24,6 +32,22 @@ namespace E_Commerce.API.Extension
                 {
                    return ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!);
                 });
+            services.AddIdentity<User, IdentityRole>(op =>
+            {
+                op.Password.RequireDigit = true;    
+                op.Password.RequireLowercase = true;
+                op.Password.RequireUppercase = true;
+                op.User.RequireUniqueEmail = true;  
+            }).AddEntityFrameworkStores<IdentityStoreDbContext>()
+                .AddDefaultTokenProviders();
+            //services.AddIdentityCore<User>(op =>
+            //{
+            //    op.Password.RequireDigit = true;
+            //    op.Password.RequireLowercase = true;
+            //    op.Password.RequireUppercase = true;
+            //    op.User.RequireUniqueEmail = true;
+            //}).AddRoles<IdentityRole>().AddEntityFrameworkStores<IdentityStoreDbContext>()
+            //    .AddDefaultTokenProviders();    
 
             services.AddScoped<IBasketRepository, BasketRepository>();
             return services;

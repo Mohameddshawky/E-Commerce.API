@@ -1,5 +1,7 @@
 ﻿using Azure.Core.Serialization;
 using Domain.Contracts;
+using Domain.Entites.IdentitiyModule;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,11 @@ using System.Threading.Tasks;
 
 namespace Presistence.Data
 {
-    public class DataSeeding(StoreDbContext _storeDbContext) : IDataSeeding
+    public class DataSeeding(
+        StoreDbContext _storeDbContext,
+        UserManager<User> userManager,
+        RoleManager<IdentityRole> roleManager
+        ) : IDataSeeding
     {
         
         public async Task SeedDataAsync()
@@ -56,6 +62,43 @@ namespace Presistence.Data
 
                 //handle ex
             }                         
+        }
+
+        public async Task SeedIdentityDataAsync()
+        {
+            try
+            {
+                if (!roleManager.Roles.Any())
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                    await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
+                }
+                if (!userManager.Users.Any())
+                {
+                    User Admin = new()
+                    {
+                        DisplayName = "Admin",
+                        UserName = "Admin",
+                        Email = "Admin@gmail.com",
+                        PhoneNumber = "01123456789"
+                    };
+                    User SuperAdmin = new()
+                    {
+                        DisplayName = "SuperAdmin",
+                        UserName = "SuperAdmin",
+                        Email = "SuperAdmin@gmail.com",
+                        PhoneNumber = "01223456789"
+                    };
+                    await userManager.CreateAsync(Admin, "P@ssw0rd");
+                    await userManager.CreateAsync(SuperAdmin, "P@ssw0rd");
+                    await userManager.AddToRoleAsync(Admin, "Admin");
+                    await userManager.AddToRoleAsync(SuperAdmin, "SuperAdmin");
+                }
+            }
+            catch (Exception ex)
+            {
+                //handle ex
+            }   
         }
     }
 }

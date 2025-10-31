@@ -11,6 +11,7 @@ namespace E_Commerce.API.Extension
             {
                 var obj = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
                 await obj.SeedDataAsync();
+                await obj.SeedIdentityDataAsync();  
             }
             return app;
         }
