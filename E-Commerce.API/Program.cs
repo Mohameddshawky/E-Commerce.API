@@ -24,16 +24,16 @@ namespace E_Commerce.API
 
             // Add services to the container.
 
-            
+
             #region DI Container
-          
+
             builder.Services.AddWebApiServices();
-            builder.Services.AddCoreServices();
-            builder.Services.AddInfrastructureServices(builder.Configuration); 
+            builder.Services.AddCoreServices(builder.Configuration);
+            builder.Services.AddInfrastructureServices(builder.Configuration);
             #endregion
             var app = builder.Build();
-           
-            await app.SeedDatabaseAsync();  
+
+            await app.SeedDatabaseAsync();
 
             app.AddExceptionHandlingMiddleWare();
             // Configure the HTTP request pipeline.
@@ -43,9 +43,9 @@ namespace E_Commerce.API
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();   
-            // app.UseAuthorization();
-
+            app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllers();
 
