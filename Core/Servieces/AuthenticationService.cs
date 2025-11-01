@@ -1,13 +1,17 @@
 ﻿using Domain.Entites.IdentitiyModule;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Servces.Abstraction;
 using Shared.DTos.IdentityModule;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace Services
 {
@@ -25,7 +29,7 @@ namespace Services
             {
                 throw new UnauthorizedException();
             }
-            return new UserResultDto(user.DisplayName, user.Email, "token");
+            return new UserResultDto(user.DisplayName, user.Email, await GenerateTokenAsync(user));
         }
 
 
@@ -47,8 +51,35 @@ namespace Services
                 throw new ValidationException(errors);
 
             }
-            return new UserResultDto(user.DisplayName, user.Email, "token");    
+            return new UserResultDto(user.DisplayName, user.Email, await GenerateTokenAsync(user));    
 
         }
+
+        private async Task<string> GenerateTokenAsync(User user)
+        {
+            var claims = new List<Claim>
+           {
+                new Claim(ClaimTypes.Email,user.Email!),
+                new Claim(ClaimTypes.Name,user.DisplayName)
+           };
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var item in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, item));   
+            }
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("/ANIuPO4B6/RwHW5++Yawoitucy2xDLvXshB+PjSH9M="));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new JwtSecurityToken
+                (
+                issuer: "https://localhost:7117/",
+                audience: "AngularProject",
+                claims: claims,
+                expires: DateTime.Now.AddDays(30),
+                signingCredentials: creds
+                );
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);                           
+
+        }   
     }
 }
