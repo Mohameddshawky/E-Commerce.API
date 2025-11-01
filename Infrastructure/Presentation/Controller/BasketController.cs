@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Servces.Abstraction;
 using Shared.DTos.BasketModule;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controller
 {
-    
+    [Authorize]
     public class BasketController(IServiceManger serviceManger):ApiController
     {
         [HttpGet]

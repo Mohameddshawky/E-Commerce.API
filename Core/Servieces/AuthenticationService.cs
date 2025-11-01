@@ -1,8 +1,10 @@
 ﻿using Domain.Entites.IdentitiyModule;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Servces.Abstraction;
+using Shared.Common;
 using Shared.DTos.IdentityModule;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,10 @@ using static System.Net.WebRequestMethods;
 
 namespace Services
 {
-    internal class AuthenticationService(UserManager<User> userManager) : IAuthenticationService
+    internal class AuthenticationService(
+        UserManager<User> userManager,
+        IOptions<JwtOptions> options
+        ) : IAuthenticationService
     {
         public async Task<UserResultDto> LoginAsync(LoginDto loginDto)
         {
@@ -57,6 +62,7 @@ namespace Services
 
         private async Task<string> GenerateTokenAsync(User user)
         {
+            var JwtOptions= options.Value;
             var claims = new List<Claim>
            {
                 new Claim(ClaimTypes.Email,user.Email!),
@@ -67,15 +73,15 @@ namespace Services
             {
                 claims.Add(new Claim(ClaimTypes.Role, item));   
             }
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("/ANIuPO4B6/RwHW5++Yawoitucy2xDLvXshB+PjSH9M="));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.SecretKey));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var tokenDescriptor = new JwtSecurityToken
                 (
-                issuer: "https://localhost:7117/",
-                audience: "AngularProject",
+                issuer: JwtOptions.Issuer,
+                audience: JwtOptions.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddDays(30),
+                expires: DateTime.Now.AddDays(JwtOptions.ExpirationInDays),
                 signingCredentials: creds
                 );
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);                           

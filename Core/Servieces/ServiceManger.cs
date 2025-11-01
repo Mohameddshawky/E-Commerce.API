@@ -2,8 +2,10 @@
 using Domain.Contracts;
 using Domain.Entites.IdentitiyModule;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Servces.Abstraction;
 using Servieces;
+using Shared.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace Services
         ,IBasketRepository basketRepository
         ,ICacheRepository cacherepository
         ,UserManager<User> userManager
+        ,IOptions<JwtOptions> options
         ) : IServiceManger
     {
         private readonly Lazy<IProductService> _productService
@@ -26,7 +29,7 @@ namespace Services
         private readonly Lazy<ICacheService> _cacheService
             = new Lazy<ICacheService>(() => new CacheService(cacherepository));
         private readonly Lazy<IAuthenticationService> _authenticationService
-            = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager));
+            = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager,options));
         public IProductService ProductService => _productService.Value;
 
         public IBasketService basketService => _basketService.Value;
