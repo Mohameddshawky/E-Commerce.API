@@ -60,6 +60,7 @@ namespace E_Commerce.API.Extension
 
             
         }
+
         public static IServiceCollection ValidateJwt(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtOptions").Get<JwtOptions>();
@@ -73,7 +74,7 @@ namespace E_Commerce.API.Extension
                 option.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateAudience = true,            
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings.Issuer,
@@ -84,11 +85,8 @@ namespace E_Commerce.API.Extension
                 };
             });
             services.AddAuthorization();
-
             return services;
 
         }
-
-
     }
 }
