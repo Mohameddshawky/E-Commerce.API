@@ -85,6 +85,7 @@ namespace E_Commerce.API.Extension
                 };
             });
             services.AddAuthorization();
+
             return services;
 
         }
