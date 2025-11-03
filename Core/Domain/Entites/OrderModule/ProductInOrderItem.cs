@@ -8,6 +8,16 @@ namespace Domain.Entites.OrderModule
 {
     public class ProductInOrderItem
     {
+        public ProductInOrderItem(int productId, string description, string pictureUrl)
+        {
+            ProductId = productId;
+            Description = description;
+            PictureUrl = pictureUrl;
+        }
+        public ProductInOrderItem()
+        {
+            
+        }
         public int ProductId { get; set; }
         public string Description { get; set; } = null!;
         public string PictureUrl { get; set; } = null!; 

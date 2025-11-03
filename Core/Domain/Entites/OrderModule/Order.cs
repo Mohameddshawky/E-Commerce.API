@@ -9,6 +9,20 @@ namespace Domain.Entites.OrderModule
 {
     public class Order:BaseEntity<Guid>
     {
+        public Order(string userEmail, ShippingAddress shippingAddress, ICollection<OrderItem> orderItems, DeliveryMethod deliveryMethod, decimal subtotal)
+        {
+            Id=Guid.NewGuid();
+            UserEmail = userEmail;
+            ShippingAddress = shippingAddress;
+            this.orderItems = orderItems;
+            DeliveryMethod = deliveryMethod;
+            Subtotal = subtotal;
+        }
+        public Order()
+        {
+            
+        }
+
         public string UserEmail { get; set; } = string.Empty;
         public ShippingAddress ShippingAddress { get; set; }
         public ICollection<OrderItem> orderItems { get; set; } = new List<OrderItem>();
@@ -18,7 +32,7 @@ namespace Domain.Entites.OrderModule
         public int? DeliveryMethodID { get; set; }
 
         public decimal Subtotal { get; set; }
-        public DateTimeOffset TimeOffset { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow;
 
         public string PaymentIntentId { get; set; } = string.Empty;
        // public decimal GetTotal()=> Subtotal + (DeliveryMethod?.Price ?? 0);

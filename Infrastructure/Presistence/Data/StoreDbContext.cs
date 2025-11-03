@@ -1,4 +1,5 @@
-﻿using Presistence.Data.Configrations;
+﻿using Domain.Entites.OrderModule;
+using Presistence.Data.Configrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,9 @@ namespace Presistence.Data
         public DbSet<Product> products { get; set; }
         public DbSet<ProductBrand> productBrands { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> orderItems { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+
     }
 }
