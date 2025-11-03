@@ -8,10 +8,10 @@ namespace Domain.Entites.OrderModule
 {
     public class ProductInOrderItem
     {
-        public ProductInOrderItem(int productId, string description, string pictureUrl)
+        public ProductInOrderItem(int productId, string productName, string pictureUrl)
         {
             ProductId = productId;
-            Description = description;
+            ProductName = productName;
             PictureUrl = pictureUrl;
         }
         public ProductInOrderItem()
@@ -19,7 +19,7 @@ namespace Domain.Entites.OrderModule
             
         }
         public int ProductId { get; set; }
-        public string Description { get; set; } = null!;
+        public string ProductName { get; set; } = null!;
         public string PictureUrl { get; set; } = null!; 
     }
 }
