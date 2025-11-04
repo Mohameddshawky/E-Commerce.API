@@ -30,6 +30,8 @@ namespace Services
             = new Lazy<ICacheService>(() => new CacheService(cacherepository));
         private readonly Lazy<IAuthenticationService> _authenticationService
             = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager,options));
+        private readonly Lazy<IOrderService>_orderService
+            = new Lazy<IOrderService>(() => new OrderService(mapper,basketRepository,unitOfWork));
         public IProductService ProductService => _productService.Value;
 
         public IBasketService basketService => _basketService.Value;
@@ -37,5 +39,7 @@ namespace Services
         public ICacheService cacheService => _cacheService.Value;
 
         public IAuthenticationService authenticationService =>_authenticationService.Value;
+
+        public IOrderService orderService => _orderService.Value;   
     }
 }
