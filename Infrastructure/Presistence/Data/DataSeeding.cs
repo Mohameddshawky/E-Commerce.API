@@ -1,6 +1,7 @@
 ﻿using Azure.Core.Serialization;
 using Domain.Contracts;
 using Domain.Entites.IdentitiyModule;
+using Domain.Entites.OrderModule;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,16 @@ namespace Presistence.Data
                     if (product != null && product.Any())
                     {
                        await _storeDbContext.products.AddRangeAsync(product);
+                    }
+
+                }
+                if (!_storeDbContext.DeliveryMethods.Any())
+                {
+                    var data = File.OpenRead("..\\Infrastructure\\Presistence\\Data\\DataSeed\\delivery.json");
+                    var deliveryMethods =await JsonSerializer.DeserializeAsync<List<DeliveryMethod>>(data);
+                    if (deliveryMethods != null && deliveryMethods.Any())
+                    {
+                       await _storeDbContext.DeliveryMethods.AddRangeAsync(deliveryMethods);
                     }
 
                 }

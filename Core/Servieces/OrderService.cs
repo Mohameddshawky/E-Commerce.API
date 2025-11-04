@@ -1,0 +1,79 @@
+﻿using AutoMapper;
+using Domain.Contracts;
+using Domain.Entites.BasketModule;
+using Domain.Entites.OrderModule;
+using Domain.Entites.ProductModule;
+using Domain.Exceptions;
+using Servces.Abstraction;
+using Shared.DTos.OrderModule;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Services
+{
+    internal class OrderService(
+        IMapper mapper
+        , IBasketRepository basketRepository
+        ,IUnitOfWork unitOfWork                                                                                                 
+        ) : IOrderService
+    {
+        public async Task<OrderResult> CreateOrderAsync(OrderRequest order, string userEmil)
+        {
+            var Address = mapper.Map<Address>(order.ShippingAddress);
+
+            var Basket =await basketRepository.GetBasketAsync(order.BasketId)
+                ?? throw new BasketNotFoundException(order.BasketId);
+            
+            var orderItems = new List<OrderItem>();
+            foreach (var item in Basket.BasketItems)
+            {
+                var product =await unitOfWork.GetRepository<Product, int>()
+                    .GetByIdAsync(item.Id)??throw new ProductNotFoundException(item.Id);
+                orderItems.Add(CreateOrderItem(product, item));  
+            }
+
+            var deliverymethod=await unitOfWork.GetRepository<DeliveryMethod,int>()
+                .GetByIdAsync(order.DeliveryMethodID)
+                ??throw new DeliveryMethodNotFoundException(order.DeliveryMethodID);    
+            
+            decimal subtotal = orderItems.Sum(item => item.Price * item.Quantity);
+
+            var Order=new Order(userEmil,Address,orderItems,deliverymethod,subtotal);
+            await unitOfWork.GetRepository<Order,Guid>().AddAsync(Order);
+            await unitOfWork.SaveChangesAsync(); 
+            var orderResult = mapper.Map<OrderResult>(Order);
+            return orderResult;
+
+        }
+
+        private OrderItem CreateOrderItem(Product product, BasketItem item)
+        {
+            ProductInOrderItem productInOrder = new ProductInOrderItem(product.Id, product.Name, product.PictureUrl);
+            OrderItem orderItem = new OrderItem
+            {
+                Product = productInOrder,
+                Price = product.Price,
+                Quantity = item.Quantity
+            };
+            return orderItem;
+        }
+
+        public Task<IEnumerable<DeliveryMethodResult>> GetDeliveryMethodsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<OrderResult> GetOrderByIdAsync(Guid orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<OrderResult>> GetOrdersByEmailAsync(string userEmail)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
