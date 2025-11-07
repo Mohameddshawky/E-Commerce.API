@@ -9,7 +9,7 @@ namespace Domain.Entites.OrderModule
 {
     public class Order:BaseEntity<Guid>
     {
-        public Order(string userEmail, ShippingAddress shippingAddress, ICollection<OrderItem> orderItems, DeliveryMethod deliveryMethod, decimal subtotal/*,string paymentId*/)
+        public Order(string userEmail, ShippingAddress shippingAddress, ICollection<OrderItem> orderItems, DeliveryMethod deliveryMethod, decimal subtotal,string paymentId)
         {
             Id=Guid.NewGuid();
             UserEmail = userEmail;
@@ -17,7 +17,7 @@ namespace Domain.Entites.OrderModule
             this.orderItems = orderItems;
             DeliveryMethod = deliveryMethod;
             Subtotal = subtotal;
-            //PaymentIntentId=paymentId;
+            PaymentIntentId=paymentId;
         }
         public Order()
         {
