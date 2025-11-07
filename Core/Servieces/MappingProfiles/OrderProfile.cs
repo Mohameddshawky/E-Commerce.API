@@ -6,14 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using useraddress=Domain.Entites.IdentitiyModule.Address;
 namespace Services.MappingProfiles
 {
     internal class OrderProfile:Profile
     {
         public OrderProfile()
         {
-            CreateMap<Address,AddressDto>().ReverseMap();   
+            CreateMap<Address,AddressDto>().ReverseMap(); 
+            CreateMap<useraddress,AddressDto>().ReverseMap(); 
+            
             CreateMap<DeliveryMethod,DeliveryMethodResult>(); 
             
             CreateMap<OrderItem,OrderItemDto>()

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Shared.DTos.OrderModule;
 using System;
 using System.Collections.Generic;
