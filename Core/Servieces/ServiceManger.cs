@@ -2,6 +2,7 @@
 using Domain.Contracts;
 using Domain.Entites.IdentitiyModule;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Services.Abstraction;
 using Servieces;
@@ -20,6 +21,7 @@ namespace Services
         ,ICacheRepository cacherepository
         ,UserManager<User> userManager
         ,IOptions<JwtOptions> options
+        ,IConfiguration configuration
         ) : IServiceManger
     {
         private readonly Lazy<IProductService> _productService
