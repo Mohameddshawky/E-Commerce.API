@@ -2,7 +2,7 @@
 using Domain.Contracts;
 using Domain.Entites.ProductModule;
 using Domain.Exceptions;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Services.Specifications;
 using Shared;
 using Shared.DTos.ProductModule;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Servces.Abstraction
+namespace Services.Abstraction
 {
     public interface IOrderService
     {

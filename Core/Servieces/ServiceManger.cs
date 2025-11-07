@@ -3,7 +3,7 @@ using Domain.Contracts;
 using Domain.Entites.IdentitiyModule;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Servieces;
 using Shared.Common;
 using System;

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Shared.Common;
 using Shared.DTos.IdentityModule;
 using Shared.DTos.OrderModule;

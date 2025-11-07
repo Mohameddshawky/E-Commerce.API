@@ -2,7 +2,7 @@
 using Domain.Contracts;
 using Domain.Entites.BasketModule;
 using Domain.Exceptions;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Shared.DTos.BasketModule;
 using System;
 using System.Collections.Generic;
