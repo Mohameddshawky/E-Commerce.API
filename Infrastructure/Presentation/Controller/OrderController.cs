@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Presentation.Controller
 {
     [Authorize]
-    public class OrderController(IServiceManger serviceManger) : ApiController
+    public class OrdersController(IServiceManger serviceManger) : ApiController
     {
         [HttpPost]
     
