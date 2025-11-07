@@ -36,14 +36,24 @@ namespace Services
                 orderItems.Add(CreateOrderItem(product, item));  
             }
 
+            var OrderRepo = unitOfWork.GetRepository<Order, Guid>();
+
             var deliverymethod=await unitOfWork.GetRepository<DeliveryMethod,int>()
                 .GetByIdAsync(order.DeliveryMethodID)
-                ??throw new DeliveryMethodNotFoundException(order.DeliveryMethodID);    
-            
+                ??throw new DeliveryMethodNotFoundException(order.DeliveryMethodID);
+
+            var orderExist =await OrderRepo.GetByIdAsync(new OrderWithPaymentIntentIdSpecification(Basket.PaymentIntentId));
+
+            if (orderExist != null)
+            {
+                OrderRepo.Delete(orderExist);
+                
+
+            }
             decimal subtotal = orderItems.Sum(item => item.Price * item.Quantity);
 
-            var Order=new Order(userEmil,Address,orderItems,deliverymethod,subtotal);
-            await unitOfWork.GetRepository<Order,Guid>().AddAsync(Order);
+            var Order=new Order(userEmil,Address,orderItems,deliverymethod,subtotal,Basket.PaymentIntentId);
+            await OrderRepo.AddAsync(Order);
             await unitOfWork.SaveChangesAsync(); 
             var orderResult = mapper.Map<OrderResult>(Order);
             return orderResult;

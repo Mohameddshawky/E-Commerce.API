@@ -25,7 +25,7 @@ namespace Services
     {
         public async Task<BasketDto> CreateOrUpdatePaymentIntentAsync(string BasketId)
         {
-            StripeConfiguration.ApiKey = " ";//configuration.GetSection("StripeSettings")["SecretKey"];
+            StripeConfiguration.ApiKey = "";//configuration.GetSection("StripeSettings")["SecretKey"];
 
             var Basket = await basketRepository.GetBasketAsync(BasketId)??throw new BasketNotFoundException(BasketId);
 
