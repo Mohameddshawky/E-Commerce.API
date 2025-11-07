@@ -35,6 +35,9 @@ namespace Services
                     ??throw new ProductNotFoundException(item.Id);
 
                 item.Price = product.Price;
+                item.ProductName = product.Name;    
+                item.PictureUrl= product.PictureUrl;    
+               
 
             }
 
@@ -56,10 +59,11 @@ namespace Services
                 var options = new PaymentIntentCreateOptions()
                 {
                     Amount=total
-                    ,Currency="USD"
-                    ,PaymentMethodTypes = ["Card"]
-                    
-                    
+                    ,Currency="USD",
+
+                    PaymentMethodTypes = new List<string> { "card" }
+
+
                 };
 
                var  paymentIntent= await StripeService.CreateAsync(options);
