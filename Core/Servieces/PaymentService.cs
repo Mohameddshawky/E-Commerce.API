@@ -25,7 +25,7 @@ namespace Services
     {
         public async Task<BasketDto> CreateOrUpdatePaymentIntentAsync(string BasketId)
         {
-            StripeConfiguration.ApiKey = "";//configuration.GetSection("StripeSettings")["SecretKey"];
+            StripeConfiguration.ApiKey =configuration.GetSection("StripeSettings")["SecretKey"];
 
             var Basket = await basketRepository.GetBasketAsync(BasketId)??throw new BasketNotFoundException(BasketId);
 
@@ -35,6 +35,9 @@ namespace Services
                     ??throw new ProductNotFoundException(item.Id);
 
                 item.Price = product.Price;
+                item.ProductName = product.Name;    
+                item.PictureUrl= product.PictureUrl;    
+               
 
             }
 
@@ -56,10 +59,11 @@ namespace Services
                 var options = new PaymentIntentCreateOptions()
                 {
                     Amount=total
-                    ,Currency="USD"
-                    ,PaymentMethodTypes = ["Card"]
-                    
-                    
+                    ,Currency="USD",
+
+                    PaymentMethodTypes = new List<string> { "card" }
+
+
                 };
 
                var  paymentIntent= await StripeService.CreateAsync(options);
