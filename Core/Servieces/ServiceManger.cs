@@ -3,7 +3,7 @@ using Domain.Contracts;
 using Domain.Entites.IdentitiyModule;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Servieces;
 using Shared.Common;
 using System;
@@ -29,7 +29,7 @@ namespace Services
         private readonly Lazy<ICacheService> _cacheService
             = new Lazy<ICacheService>(() => new CacheService(cacherepository));
         private readonly Lazy<IAuthenticationService> _authenticationService
-            = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager,options));
+            = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager,options,mapper));
         private readonly Lazy<IOrderService>_orderService
             = new Lazy<IOrderService>(() => new OrderService(mapper,basketRepository,unitOfWork));
         public IProductService ProductService => _productService.Value;

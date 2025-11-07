@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Attributes;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Shared;
 using Shared.DTos.ProductModule;
 using Shared.Enums;

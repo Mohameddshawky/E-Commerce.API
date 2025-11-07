@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presistence.Data;
 using Presistence.Repositories;
-using Servces.Abstraction;
+using Services.Abstraction;
 using Services;
 using Servieces;
 using System.Threading.Tasks;
