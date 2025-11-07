@@ -27,7 +27,7 @@ namespace E_Commerce.API
 
             #region DI Container
 
-            builder.Services.AddWebApiServices();
+            builder.Services.AddWebApiServices(builder.Configuration);
             builder.Services.AddCoreServices(builder.Configuration);
             builder.Services.AddInfrastructureServices(builder.Configuration);
             #endregion
@@ -44,6 +44,7 @@ namespace E_Commerce.API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCors("CrosPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
