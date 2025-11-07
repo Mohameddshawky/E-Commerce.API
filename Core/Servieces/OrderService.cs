@@ -23,13 +23,13 @@ namespace Services
     {
         public async Task<OrderResult> CreateOrderAsync(OrderRequest order, string userEmil)
         {
-            var Address = mapper.Map<Address>(order.ShippingAddress);
+            var Address = mapper.Map<Address>(order.ShipToAddress);
 
             var Basket =await basketRepository.GetBasketAsync(order.BasketId)
                 ?? throw new BasketNotFoundException(order.BasketId);
             
             var orderItems = new List<OrderItem>();
-            foreach (var item in Basket.BasketItems)
+            foreach (var item in Basket.Items)
             {
                 var product =await unitOfWork.GetRepository<Product, int>()
                     .GetByIdAsync(item.Id)??throw new ProductNotFoundException(item.Id);

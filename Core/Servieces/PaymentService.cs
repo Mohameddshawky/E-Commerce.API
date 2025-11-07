@@ -29,7 +29,7 @@ namespace Services
 
             var Basket = await basketRepository.GetBasketAsync(BasketId)??throw new BasketNotFoundException(BasketId);
 
-            foreach (var item in Basket.BasketItems)
+            foreach (var item in Basket.Items)
             {
                  var product=    await unitOfWork.GetRepository<IProduct,int>().GetByIdAsync(item.Id)
                     ??throw new ProductNotFoundException(item.Id);
@@ -49,7 +49,7 @@ namespace Services
 
             Basket.ShippingPrice = deliveryMethod.Price;
 
-            var total =(long)( Basket.BasketItems.Sum(i => i.Quantity * i.Price)+Basket.ShippingPrice)*100;
+            var total =(long)( Basket.Items.Sum(i => i.Quantity * i.Price)+Basket.ShippingPrice)*100;
 
             var StripeService = new PaymentIntentService();
 
