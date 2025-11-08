@@ -11,5 +11,6 @@ namespace Services.Abstraction
     {
         Task<BasketDto> CreateOrUpdatePaymentIntentAsync(string BasketId);
 
+        Task UpdatePaymentStatusAsync(string json,string signtaureHeader);
     }
 }

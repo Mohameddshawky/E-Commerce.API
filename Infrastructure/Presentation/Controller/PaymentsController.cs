@@ -14,7 +14,19 @@ namespace Presentation.Controller
         [HttpPost("{Basketid}")]
         public async Task<ActionResult<BasketDto>> CreateOrUpdatePaymentIntent(string Basketid)
         =>Ok( await serviceManger.PaymentService.CreateOrUpdatePaymentIntentAsync(Basketid));
-            
-        
+
+        [HttpPost("WebHook")]
+        public async Task<IActionResult> WebHook()
+        {
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+           
+           
+            var signatureHeader = Request.Headers["Stripe-Signature"];
+
+            await serviceManger.PaymentService.UpdatePaymentStatusAsync(json, signatureHeader);
+
+            return new EmptyResult();
+
+        }
     }
 }
