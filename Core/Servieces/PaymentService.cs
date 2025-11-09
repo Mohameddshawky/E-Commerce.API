@@ -125,7 +125,7 @@ namespace Services
                 .GetByIdAsync(new OrderWithPaymentIntentIdSpecification(id));
             if(order is not null)
             {
-                order.PaymentStatus = OrderPaymentStatus.Failed;
+                order.PaymentStatus = OrderPaymentStatus.PaymentFailed;
                 unitOfWork.GetRepository<Order, Guid>().Update(order);
                 await unitOfWork.SaveChangesAsync();
             }    
@@ -137,7 +137,7 @@ namespace Services
                .GetByIdAsync(new OrderWithPaymentIntentIdSpecification(id));
             if (order is not null)
             {
-                order.PaymentStatus = OrderPaymentStatus.Completed;
+                order.PaymentStatus = OrderPaymentStatus.PaymentRecieved;
                 unitOfWork.GetRepository<Order, Guid>().Update(order);
                 await unitOfWork.SaveChangesAsync();
             }

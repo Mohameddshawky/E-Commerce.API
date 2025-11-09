@@ -47,7 +47,7 @@ namespace Presistence.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryMethods");
+                    b.ToTable("DeliveryMethods", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entites.OrderModule.Order", b =>
@@ -81,7 +81,7 @@ namespace Presistence.Data.Migrations
 
                     b.HasIndex("DeliveryMethodID");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entites.OrderModule.OrderItem", b =>
@@ -103,7 +103,7 @@ namespace Presistence.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("orderItems");
+                    b.ToTable("orderItems", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entites.ProductModule.Product", b =>
@@ -141,7 +141,7 @@ namespace Presistence.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("products");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entites.ProductModule.ProductBrand", b =>
@@ -158,7 +158,7 @@ namespace Presistence.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("productBrands");
+                    b.ToTable("productBrands", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entites.ProductModule.ProductType", b =>
@@ -175,7 +175,7 @@ namespace Presistence.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductTypes");
+                    b.ToTable("ProductTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entites.OrderModule.Order", b =>
@@ -185,7 +185,7 @@ namespace Presistence.Data.Migrations
                         .HasForeignKey("DeliveryMethodID")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.OwnsOne("Domain.Entites.OrderModule.Address", "ShippingAddress", b1 =>
+                    b.OwnsOne("Domain.Entites.OrderModule.Order.ShippingAddress#Domain.Entites.OrderModule.Address", "ShippingAddress", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("uniqueidentifier");
@@ -212,7 +212,7 @@ namespace Presistence.Data.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders");
+                            b1.ToTable("Orders", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -231,7 +231,7 @@ namespace Presistence.Data.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.OwnsOne("Domain.Entites.OrderModule.ProductInOrderItem", "Product", b1 =>
+                    b.OwnsOne("Domain.Entites.OrderModule.OrderItem.Product#Domain.Entites.OrderModule.ProductInOrderItem", "Product", b1 =>
                         {
                             b1.Property<Guid>("OrderItemId")
                                 .HasColumnType("uniqueidentifier");
@@ -249,7 +249,7 @@ namespace Presistence.Data.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("orderItems");
+                            b1.ToTable("orderItems", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");

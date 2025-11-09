@@ -9,8 +9,8 @@ namespace Domain.Entites.OrderModule
     public enum OrderPaymentStatus
     {
         Pending=0,
-        Completed,
-        Failed,
+        PaymentRecieved,
+        PaymentFailed,
    
     }
 }
